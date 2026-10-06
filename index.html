@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#0b7a5c">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="description" content="لعبة تفاعلية للأطفال مع عبدالله وعبير لاكتشاف مصايف المملكة العربية السعودية">
+<title>رحلة المصايف | مع عبدالله وعبير</title>
+<link rel="icon" href="assets/favicon.ico" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="assets/favicon-16x16.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/apple-touch-icon.png">
+<link rel="manifest" href="assets/site.webmanifest">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+Bhaijaan+2:wght@500;700;800&display=swap" rel="stylesheet">
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/qrcode-generator/1.4.4/qrcode.min.js"></script>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- shared SVG patterns (kept rendered, not display:none, so every character can reference them) -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true"><defs>
+  <pattern id="shm" width="9" height="9" patternUnits="userSpaceOnUse">
+    <rect width="9" height="9" fill="#fff"/><path d="M0 0L9 9M9 0L0 9" stroke="#cf3a31" stroke-width="1.9"/>
+  </pattern>
+</defs></svg>
+
+<main id="app">
+
+  <div id="hud" class="hide">
+    <div id="hudFace"></div>
+    <div id="stamps"></div>
+    <div id="stars">⭐ ٠</div>
+    <button id="musicBtn" class="music-btn" aria-label="الموسيقى" aria-pressed="false">🎵</button>
+    <button id="muteBtn" aria-label="المؤثرات الصوتية">🔊</button>
+  </div>
+
+  <!-- 1) choose a character -->
+  <section id="s-start" class="screen on">
+    <div class="clouds"><i style="top:6%;animation-duration:38s">☁️</i><i style="top:30%;animation-duration:55s;animation-delay:-20s">☁️</i><i style="top:58%;animation-duration:46s;animation-delay:-33s">☁️</i></div>
+    <header class="logo">
+      <span class="tag">☀️ مصايف المملكة العربية السعودية</span>
+      <h1>رحلة المصايف ✈️</h1>
+      <p>اختر رفيق رحلتك!</p>
+    </header>
+    <div class="pick">
+      <button class="hero-card" data-hero="abdullah"><div class="fig"></div><b>عبدالله</b><small>يحب الجبال والمغامرات</small></button>
+      <button class="hero-card" data-hero="abeer"><div class="fig"></div><b>عبير</b><small>تحب الورد والطبيعة</small></button>
+    </div>
+    <div class="bubble" id="pickSay">مين يسافر معك اليوم؟ اضغط على عبدالله أو عبير 👆</div>
+    <button class="btn" id="goBtn" disabled>اختر شخصية للبدء</button>
+    <div class="links">
+      <button class="link" id="qrBtn">📱 العب من جوالك</button>
+      <button class="link music-btn" id="musicBtn2" aria-pressed="false">🎵 تشغيل الموسيقى</button>
+    </div>
+  </section>
+
+  <!-- 2) the map and the flight -->
+  <section id="s-map" class="screen with-hud">
+    <h2 id="mapTitle">وين المحطة الجاية؟</h2>
+    <div class="map-wrap"><svg id="map" viewBox="0 0 367 400" preserveAspectRatio="xMidYMid meet"></svg></div>
+    <div class="cabin">
+      <div class="porthole" id="cabinFace"></div>
+      <div class="bubble" id="cabinSay"></div>
+    </div>
+    <button class="btn pulse" id="flyBtn">أقلع! ✈️</button>
+  </section>
+
+  <!-- 3) the destination and its question -->
+  <section id="s-scene" class="screen with-hud">
+    <div class="stage">
+      <div id="backdrop"></div>
+      <div id="cityName"></div>
+      <div id="heroStand"></div>
+      <div class="bubble" id="stageSay"></div>
+    </div>
+    <div class="qcard hide" id="qcard">
+      <div id="qPrompt"></div>
+      <div class="answers" id="answers"></div>
+      <div class="q-foot" id="qFoot"><button class="chip" id="hintBtn"></button><span id="tries"></span></div>
+    </div>
+    <button class="btn" id="sceneBtn"></button>
+  </section>
+
+  <!-- 4) the end -->
+  <section id="s-end" class="screen">
+    <h2>🎉 أكملنا الرحلة!</h2>
+    <div id="endRank"></div>
+    <div id="endStars"></div>
+    <div class="end-cast"><div class="fig" id="endA"></div><div class="fig" id="endB"></div></div>
+    <div class="bubble" id="endSay"></div>
+    <button class="btn green" id="againBtn">العب مرة ثانية 🔁</button>
+    <button class="link" id="qrBtn2">📱 شارك اللعبة</button>
+  </section>
+
+  <div class="modal" id="qrModal">
+    <div class="sheet">
+      <h3>📱 امسح الرمز والعب</h3>
+      <div id="qrBox"></div>
+      <p id="qrNote"></p>
+      <button class="btn" id="qrClose">تمام</button>
+    </div>
+  </div>
+
+  <div id="fx"></div>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
